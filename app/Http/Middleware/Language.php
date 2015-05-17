@@ -26,12 +26,17 @@ class Language implements Middleware {
 		// Make sure current locale exists.
 		$locale = $request->segment(1);
 
-		if ( ! array_key_exists($locale, $this->app->config->get('app.locales'))) {
-			$segments = $request->segments();
-			$segments[0] = $this->app->config->get('app.fallback_locale');
-
-			return $this->redirector->to(implode('/', $segments));
-		}
+		 if ( ! array_key_exists($locale, $this->app->config->get('app.locales'))) {
+		            $segments = $request->segments();
+		            $segmen = $request->segments();
+		            $say = 0;
+		            	foreach($segments as $segment){
+							$segmen[$say+1] = $segments[$say];
+							$say++;
+						}
+		            $segmen[0] = $this->app->config->get('app.fallback_locale');
+		            return $this->redirector->to(implode('/', $segmen));
+        	}
 
 		$this->app->setLocale($locale);
 
